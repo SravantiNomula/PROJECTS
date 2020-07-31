@@ -21,7 +21,7 @@ def print_board(board):
 #Function to declare if any winner is there    
 def winner(board):
     if(board["a1"]==board["a2"]==board["a3"]!=" ") or (board["b1"]==board["b2"]==board["b3"]!=" ") or (board["c1"]==board["c2"]==board["c3"]!=" ") or (board["a1"]==board["b1"]==board["c1"]!=" ") or (board["a2"]==board["b2"]==board["c2"]!=" ") or (board["a3"]==board["b3"]==board["c3"]!=" ") or (board["a1"]==board["b2"]==board["c3"]!=" ") or (board["a3"]==board["b2"]==board["c1"]!=" "):
-        print("THE WINNNNNNNNNNERRR is X"+p)
+        print("THE WINNNNNNNNNNERRR is "+p)
         print_board(board)
         
         sys.exit()
