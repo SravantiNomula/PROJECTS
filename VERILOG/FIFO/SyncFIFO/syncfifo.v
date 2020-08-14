@@ -1,3 +1,13 @@
+/*
+
+For synchronous FIFO design (a FIFO where writes to, and reads from the FIFO buffer are conducted in the same
+clock domain), one implementation counts the number of writes to, and reads from the FIFO buffer to increment (on
+FIFO write but no read), decrement (on FIFO read but no write) or hold (no writes and reads, or simultaneous write
+and read operation) the current fill value of the FIFO buffer. The FIFO is full when the FIFO counter reaches a
+predetermined full value and the FIFO is empty when the FIFO counter is zero.
+
+*/
+
 module syn_fifo (
 clk      , // Clock input
 rst      , // Active high reset
@@ -38,34 +48,45 @@ wire [DATA_WIDTH-1:0] data_ram ;
 assign full = (status_cnt == (RAM_DEPTH-1));
 assign empty = (status_cnt == 0);
 
-//-----------Code Start---------------------------
+//-----------WRITE AND READ POINTER CALCULATION---------------------------
 always @ (posedge clk or posedge rst)
 begin : WRITE_POINTER
-  if (rst) begin
+  if (rst) 
+   begin
     wr_pointer <= 0;
-  end else if (wr_cs && wr_en ) begin
-    wr_pointer <= wr_pointer + 1;
-  end
+   end 
+  else 
+   if (wr_cs && wr_en )
+    begin
+     wr_pointer <= wr_pointer + 1;
+    end
 end
 
 always @ (posedge clk or posedge rst)
 begin : READ_POINTER
   if (rst) begin
     rd_pointer <= 0;
-  end else if (rd_cs && rd_en ) begin
+  end 
+ else 
+  if (rd_cs && rd_en ) 
+   begin
     rd_pointer <= rd_pointer + 1;
+   end
   end
-end
-
+///-----------READING THE DATA THROUGH DATA OUT---------
 always  @ (posedge clk or posedge rst)
 begin : READ_DATA
-  if (rst) begin
+  if (rst) 
+   begin
     data_out <= 0;
-  end else if (rd_cs && rd_en ) begin
+   end 
+ else 
+  if (rd_cs && rd_en ) 
+   begin
     data_out <= data_ram;
+   end
   end
-end
-
+//------MAINTAINING THE STATUS COUNT VALUE--increment: WRITE only;decrement: READ ONLY; ELSE HOLD
 always @ (posedge clk or posedge rst)
 begin : STATUS_COUNTER
   if (rst) begin
