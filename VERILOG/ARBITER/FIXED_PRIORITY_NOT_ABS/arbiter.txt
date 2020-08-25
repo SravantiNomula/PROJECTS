@@ -1,0 +1,5 @@
+The nextGrant generator will only get the new arbitration value if no grant is active (noGrant = 1).
+If a grant bit is active, the grant bit is held at level 1 if the request remains level 1.
+
+This design is to make sure that even if a lower priority system has been granted access last cycle
+if this cycle a high priority system asks for access we wont override the low priority system which was a concern in the FIXED_PRIORITY_SIMPLE design
