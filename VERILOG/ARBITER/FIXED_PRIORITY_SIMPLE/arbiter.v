@@ -21,22 +21,32 @@ module ArbFixedPriorityAbs (
   //
   generate
     genvar i;
-	  //For req[0]
-	  always @ (posedge clk, negedge rst_n) begin
+///////////////////////////////////////////////	  
+//For req[0]
+//Highest priority: When reset grant is 0 else request is directly the grant	  
+always @ (posedge clk, negedge rst_n) 
+    begin
       if (~rst_n)
 	      grant[0] <= 1'b0;
 	    else
 	      grant[0] <= req[0]; //highest priority, do not care other requests
     end
-	  //For req[REQ_NUM-1:1]
-	  for (i = 1; i < REQ_NUM; i=i+1) begin: uGrant
-      always @ (posedge clk, negedge rst_n) begin
+
+/////////////////////////////////////////////////	  
+//For req[REQ_NUM-1:1]
+
+for (i = 1; i < REQ_NUM; i=i+1) 
+begin: uGrant
+      always @ (posedge clk, negedge rst_n) 
+	begin
         if (~rst_n)
-	        grant[i] <= 1'b0;
+		grant[i] <= 1'b0;// If reset all grant bits are LOW
 	      else
-	        grant[i] <= req[i] & ~|req[i-1:0]; //low priority, must care higher priority
-      end
-	  end //for loop
+		      grant[i] <= req[i] & ~|req[i-1:0]; //Reduction Nor, only when none of the req[i-1:0] bits are HIGH will be 1'b1
+      	end
+end //for loop
+  
+  
   endgenerate
   //
-endmodule //ArbFixedPriorityAbs
+endmodule
