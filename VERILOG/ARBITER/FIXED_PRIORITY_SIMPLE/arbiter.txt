@@ -1,0 +1,7 @@
+1)
+The issue with the fixed priority arbiter is that if any high priority system rises a request continuously
+the low priority systems never get the grant and this leads to STARVATION.
+2)
+If a system of low priority (A) has the access of the system and is doing a certain job but in the next cycle 
+if a higher priority system (B) raises a request then A is forced to stop the access and B gets the grant. 
+
