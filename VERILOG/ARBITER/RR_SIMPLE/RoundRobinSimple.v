@@ -15,7 +15,8 @@ module ArbSimpleRR (
   
   
   parameter REQ_NUM    = 4;                 //Number of sources requesting access 
-  parameter COUNTER_W  = clog2(REQ_NUM);    // Number of bits required to denote the sources 
+	parameter COUNTER_W  = clog2(REQ_NUM);    // Number of bits required to denote the sources here log2(4)-->2
+						//obtained using a function written in the end			
   //
   input  clk;
   input  rst_n;
