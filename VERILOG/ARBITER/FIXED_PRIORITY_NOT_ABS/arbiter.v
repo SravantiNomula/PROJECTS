@@ -7,12 +7,7 @@
 //  - High request can only occupy grant of lower request
 //    when the current grant is completed
 //-------------------------------------------
-module ArbFixedPriorityNAbs (
-  clk,
-  rst_n,
-  req,
-  grant
-  );
+module ArbFixedPriorityNAbs (clk,rst_n,req,grant);
 	
   parameter REQ_NUM = 4;
   //
