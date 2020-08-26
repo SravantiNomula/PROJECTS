@@ -1,4 +1,7 @@
-The nextGrant generator will only get the new arbitration value if no grant is active (noGrant = 1).
+The nextGrant generator will only get the nogrant HIGH value if no grant is active (noGrant = 1).
+
+Which indicates no grant has been granted and we can grant access to a system even of  usually low priority if it rises request if all the higher priority systems dont rise request at the same time.
+
 If a grant bit is active, the grant bit is held at level 1 if the request remains level 1.
 
 This design is to make sure that even if a lower priority system has been granted access last cycle
