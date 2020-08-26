@@ -8,14 +8,7 @@
 //    and continue being accepted for the next requests
 //-------------------------------------------
 
-module ArbFixedPriorityLocked (
-  clk,
-  rst_n,
-  req,
-  lockIn,
-  lockSta,
-  grant
-  );
+module ArbFixedPriorityLocked (clk, rst_n, req, lockIn, lockSta, grant);
 	
   parameter REQ_NUM = 4;
   //
