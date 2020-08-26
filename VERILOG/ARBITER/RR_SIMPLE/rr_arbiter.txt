@@ -1,0 +1,18 @@
+This design-based processor is low-resource, simple, and easy to implement
+
+Issues with this simple implementation of arbiter:
+
+--1)The handling is not really "balanced" because one source of requests is able to be active 2 times in a row even though at the same time, 
+another source of requests that has not been granted is active.
+eg: say we source-01 has grant even in next cycle it requests for grant now even if let us say source-10 
+    requests for a grant source-01 continues to have the grant..
+    In the next cycle source-10 may not raise request 
+
+--2)This happens because during the process there is no active request source, the counter "count" will count up continuously 
+so that a request source cannot be granted immediately if the counter value has passed its turn. 
+
+Assuming req [2] is positive while "count"= 3 , now the turn of req [2]  is over, then req [2] has  to wait for rrCounter to count through 0 and 1 then to 2. 
+Now, req [ 0] or req [1] will be grant first if the two signals are positive even the last time either of these sources has received grant.
+
+--3)Multiple free cycles (doing nothing) can occur between two grant attempts, especially when the number of request sources increases. 
+ you can see that grant error after many cycles compared to previous grant even though req [0] is active alone because req [0] has to wait its turn.
