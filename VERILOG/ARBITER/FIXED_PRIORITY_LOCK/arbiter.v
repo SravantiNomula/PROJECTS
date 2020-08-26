@@ -16,27 +16,32 @@ module ArbFixedPriorityLocked (
   lockSta,
   grant
   );
+	
   parameter REQ_NUM = 4;
   //
   input  clk;
   input  rst_n;
   input  [REQ_NUM-1:0] req;
   input  [REQ_NUM-1:0] lockIn;
+	
   output reg [REQ_NUM-1:0] grant;
   output wire lockSta;
   //
+	
   reg [REQ_NUM-1:0] nextGrant;
   reg [REQ_NUM-1:0] lockReg;
+	
   wire noGrant;
   wire noLock;
-  //
+  
+//No system has been granted 
   assign noGrant = ~|grant[REQ_NUM-1:0];
   //
   //Grant logic
-  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
   generate
     genvar i;
-	  //For req[0]
+	  //For req[0]//////////////////////////
 	  always @ (*) begin
       if (lockReg[0])
 	      nextGrant[0] = req[0];
@@ -45,7 +50,7 @@ module ArbFixedPriorityLocked (
 	    else
 	      nextGrant[0] = req[0] & grant[0];
     end
-	  //For req[REQ_NUM-1:1]
+	  //For req[REQ_NUM-1:1]//////////////////
 	  for (i = 1; i < REQ_NUM; i=i+1) begin: uGrant
       always @ (*) begin
         if (lockReg[i])
