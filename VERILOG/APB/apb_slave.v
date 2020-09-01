@@ -19,36 +19,55 @@ reg [1:0] WRITE = 2;
 reg [1:0] READ = 3;
  reg pready = 0;
 
-always @(posedge clk or negedge rst_n) begin
- if(!rst_n) begin
- prdata <= 0;
- state <= SETUP; 
- end else begin
- case(state)
- SETUP : begin
- prdata <= 0;
- if (psel & !penable) begin
- if (pwrite) begin
- state <= WRITE;
- end else begin
- state <= READ;
- end
- end
- end
- WRITE: begin
- if (psel & penable & pwrite) begin
- mem[paddr] <= pwdata; 
- end
- state <= SETUP; 
- end
- READ : begin
- if (psel & penable & !pwrite) begin
- prdata <= mem[paddr];
- end
- state <= SETUP;
- end
- endcase
- end
+always @(posedge clk or negedge rst_n) 
+ begin
+     if(!rst_n) 
+     begin
+        prdata <= 0;
+        state <= SETUP; 
+     end 
+  
+     else 
+     begin
+        case(state)
+/////////////////////////////////////////
+            SETUP : 
+              begin
+                  prdata <= 0;
+                  if (psel & !penable) 
+                   begin
+                        if (pwrite) 
+                         begin
+                              state <= WRITE;
+                         end 
+                        
+                        else 
+                          begin
+                               state <= READ;
+                          end
+                     end
+              end
+  ///////////////////////////////////////////       
+             WRITE:
+              begin
+                   if (psel & penable & pwrite) 
+                    begin
+                          mem[paddr] <= pwdata; 
+                    end
+                    state <= SETUP; 
+              end
+//////////////////////////////////////
+            READ : 
+             begin
+                  if (psel & penable & !pwrite) 
+                   begin
+                           prdata <= mem[paddr];
+                   end
+             
+                   state <= SETUP;
+             end
+      endcase
+   end
 
 end
 
