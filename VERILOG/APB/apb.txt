@@ -1,0 +1,5 @@
+To introduce WAIT STATES:
+  if we want to have WAIT state included then we need  pready signal.
+  pready can be HIGH or LOW when penable is LOW but when penable is HIGH --> ACCESS MODE if we want to wait in that access mode 
+      We nead pready ---> LOW
+      All the other signals should remain the same(ACCESS MODE) until pready is HIGH again only then transaction is complete.
