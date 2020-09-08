@@ -66,6 +66,7 @@ module ArbPriorityRR (clk,  rst_n,  req,  grant);
        .reqIn(req[REQ_NUM-1:0]),
        .reqOut(reqOut[REQ_NUM-1:0])
        );
+	
   generate
     genvar j;
 	  for (j = 1; j < REQ_NUM; j=j+1) begin: uPResult
