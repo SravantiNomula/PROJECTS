@@ -13,20 +13,15 @@
 //  - In a function, a constant maybe is assigned from input by declaring "input integer ..."
 //    => example: "input integer index;" -> Do NOT declare "input index;"
 //-------------------------------------------
-module ArbPriorityRR (
-  clk,
-  rst_n,
-  req,
-  grant
-  );
+module ArbPriorityRR (clk,  rst_n,  req,  grant);
   parameter REQ_NUM    = 4;
   parameter COUNTER_W  = clog2(REQ_NUM);
-  //
+  /////////////////////////////////////////
   input  clk;
   input  rst_n;
   input  [REQ_NUM-1:0] req;
   output reg [REQ_NUM-1:0] grant;
-  //
+  //////////////////////////////////////////
   reg [COUNTER_W-1:0] rrCounter;
   wire incCounter;
   wire [REQ_NUM-1:0] prioritySel;
@@ -34,8 +29,10 @@ module ArbPriorityRR (
   wire [REQ_NUM*REQ_NUM-1:0] reqOutVector;
   wire noGrant;
   wire [REQ_NUM-1:0] nextGrant;
-  //
+  //////////////////////////////////////////////////
   assign noGrant = ~|grant[REQ_NUM-1:0];
+	
+/////////////////////////////////////////////////////////////////////////////////////	
   //Increase counter if no request or END of current request
   assign incCounter = (~|req[REQ_NUM-1:0]) | |(~req[REQ_NUM-1:0] & grant[REQ_NUM-1:0]);
   //
@@ -49,7 +46,8 @@ module ArbPriorityRR (
 	      rrCounter[COUNTER_W-1:0] <= rrCounter[COUNTER_W-1:0] + 1'b1;
     end
   end
-  //
+  ///////////////////////////////////////////////////////////////////////////////////
+	 
   //Select priority logic
   //
   generate
@@ -128,7 +126,7 @@ module ArbPriorityRR (
   endfunction
   //
   //Not for sunthesis, Only use to calculate the parameter
-  //
+  //////////////////////////////////////////////////////////////////////
   function integer clog2; 
    input integer value;
 	 integer ii;
@@ -141,7 +139,7 @@ module ArbPriorityRR (
   endfunction
   //
 endmodule //ArbPriorityRR
-
+///////////////////////////////////////////////////////////////////////////////
 module priorityLogic (Sel, reqIn, reqOut);
   parameter REQ_NUM    = 2;
   //
